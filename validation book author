@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Input Validation Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: InputPage(),
+    );
+  }
+}
+
+class InputPage extends StatefulWidget {
+  @override
+  _InputPageState createState() => _InputPageState();
+}
+
+class _InputPageState extends State<InputPage> {
+  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController authorController = TextEditingController();
+  final TextEditingController bookNameController = TextEditingController();
+
+  bool isNumeric(String value) {
+    if (value == null) {
+      return false;
+    }
+    return double.tryParse(value) != null;
+  }
+
+  bool isAlphabetic(String value) {
+    return RegExp(r'^[a-zA-Z]+$').hasMatch(value);
+  }
+
+  void validateInputs() {
+    String quantity = quantityController.text;
+    String price = priceController.text;
+    String author = authorController.text;
+    String bookName = bookNameController.text;
+
+    if (quantity.isEmpty || price.isEmpty || author.isEmpty || bookName.isEmpty) {
+      _showErrorDialog("Please fill in all fields.");
+      return;
+    }
+
+    if (!isNumeric(quantity) || double.parse(quantity) < 0) {
+      _showErrorDialog("Quantity should be a non-negative number.");
+      return;
+    }
+
+    if (!isNumeric(price) || double.parse(price) < 0) {
+      _showErrorDialog("Price should be a non-negative number.");
+      return;
+    }
+
+    if (!isAlphabetic(author)) {
+      _showErrorDialog("Author name should only contain letters.");
+      return;
+    }
+
+    if (!isAlphabetic(bookName)) {
+      _showErrorDialog("Book name should only contain letters.");
+      return;
+    }
+
+    // If all validations pass, proceed with further actions
+    // e.g., save data or navigate to next screen
+    // For now, just printing the values
+    print("Quantity: $quantity");
+    print("Price: $price");
+    print("Author: $author");
+    print("Book Name: $bookName");
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Input Validation Demo'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: quantityController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Quantity'),
+            ),
+            TextField(
+              controller: priceController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Price'),
+            ),
+            TextField(
+              controller: authorController,
+              decoration: InputDecoration(labelText: 'Author'),
+            ),
+            TextField(
+              controller: bookNameController,
+              decoration: InputDecoration(labelText: 'Book Name'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: validateInputs,
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
