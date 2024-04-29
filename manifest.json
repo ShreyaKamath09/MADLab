@@ -1,1 +1,37 @@
+//android folder createdn in public directory
 
+{
+  "name":"VeggieVan Web App",
+  "short_name":"VeggieVan",
+  "start_url":"/api/auth/signin",
+  "orientation":"portrait-primary",
+  "display":"standalone",
+  "background_color":"#FF5733",
+  "theme_color": "#90a955",
+  "icons": [
+        {
+          "src": "android/Icon-512.png",
+          "sizes": "512x512"
+        },
+        {
+          "src": "android/Icon-192.png",
+          "sizes": "192x192"
+        },
+        {
+          "src": "android/Icon-144.png",
+          "sizes": "144x144"
+        },
+        {
+          "src": "android/Icon-96.png",
+          "sizes": "96x96"
+        },
+        {
+          "src": "android/Icon-72.png",
+          "sizes": "72x72"
+        },
+        {
+          "src": "android/Icon-48.png",
+          "sizes": "48x48"
+        }
+      ]
+}
